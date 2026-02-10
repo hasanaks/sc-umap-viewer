@@ -1,10 +1,7 @@
-from shiny import render, ui
-from shiny.express import input
+from shiny.express import ui, render, input
 
-ui.panel_title("Hello Shiny!")
-ui.input_slider("n", "N", 0, 100, 20)
-
+ui.input_file("dataset", "Select a dataset file (.zip)", accept=[".zip"])
 
 @render.text
 def txt():
-    return f"n*2 is {input.n() * 2}"
+    return input.dataset()
