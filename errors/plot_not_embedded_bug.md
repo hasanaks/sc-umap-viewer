@@ -1,0 +1,1 @@
+The UMAP plot wasn't getting rendered inside the page, instead another window was opening when a file was uploaded to the site. To fix this, I had to set show=False in sc.pl.umap.

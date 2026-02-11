@@ -13,11 +13,12 @@ def read_dataset(archive_path):
                 with dataset_zip.open(path, "r") as file:
                     return sc.read_h5ad(file)
 
-@render.plot()
+
+@render.plot(alt="UMAP Plot")
 def dataset_plot():
     dataset = input.dataset()
 
     if dataset:
-        print("opened:", dataset)
         adata = read_dataset(dataset[0]["datapath"])
-        print(adata)
+        axes = sc.pl.umap(adata, show=False)
+        return axes
