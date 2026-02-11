@@ -1,21 +1,23 @@
 from shiny.express import ui, render, input
-from zipfile import ZipFile
+import zipfile
+import scanpy as sc
 
 ui.input_file("dataset", "Select a dataset file (.zip)", accept=[".zip"])
 
-# @render.plot()
-# def dataset_plot():
-#     pass
 
-@render.text
-def file_contents():
+# reads and returns an anndata obj of .h5ad file from a .zip file
+def read_dataset(archive_path):
+    with zipfile.ZipFile(archive_path, "r") as dataset_zip:
+        for path in dataset_zip.namelist():
+            if path.endswith(".h5ad"):
+                with dataset_zip.open(path, "r") as file:
+                    return sc.read_h5ad(file)
+
+@render.plot()
+def dataset_plot():
     dataset = input.dataset()
 
     if dataset:
         print("opened:", dataset)
-
-        with ZipFile(dataset[0]["datapath"]) as dataset_zip:
-            for fpath in dataset_zip.namelist():
-                if fpath.endswith(".h5ad"):
-                    with dataset_zip.open(fpath) as dataset_file:
-                        pass # todo: generate umap plot
+        adata = read_dataset(dataset[0]["datapath"])
+        print(adata)
