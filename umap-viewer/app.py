@@ -1,17 +1,9 @@
 from shiny.express import ui, render, input
 import zipfile
 import scanpy as sc
+from h5ad import H5AD
 
 ui.input_file("dataset", "Select a dataset file (.zip)", accept=[".zip"])
-
-
-# reads and returns an anndata obj of .h5ad file from a .zip file
-def read_dataset(archive_path):
-    with zipfile.ZipFile(archive_path, "r") as dataset_zip:
-        for path in dataset_zip.namelist():
-            if path.endswith(".h5ad"):
-                with dataset_zip.open(path, "r") as file:
-                    return sc.read_h5ad(file)
 
 
 @render.plot(alt="UMAP Plot")
@@ -19,6 +11,7 @@ def dataset_plot():
     dataset = input.dataset()
 
     if dataset:
-        adata = read_dataset(dataset[0]["datapath"])
-        axes = sc.pl.umap(adata, show=False)
+        dataset = H5AD(dataset[0]["datapath"])
+
+        axes = sc.pl.umap(dataset.adata, show=False)
         return axes
