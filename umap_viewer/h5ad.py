@@ -10,6 +10,8 @@ class H5AD:
             for path in dataset_zip.namelist():
                 if path.endswith(".h5ad"):
                     return dataset_zip.open(path, "r")
+    
+        raise FileNotFoundError(f"Couldn't find any h5ad file in the archive {archive_path}.")
 
     # reads an .h5ad file from a zip archive
     def __init__(self, archive_path):
