@@ -1,0 +1,1 @@
+Shiny reran the plotting function (hence reran dataset loading each time) when non-file changes occured (e.g., fullscreening the plot-card). To fix this I moved dataset loading into a seperate reactive.calc-decorated function.
