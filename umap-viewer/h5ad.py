@@ -1,5 +1,6 @@
 import zipfile
 import scanpy as sc
+import pathlib
 
 
 class H5AD:
@@ -13,4 +14,5 @@ class H5AD:
     # reads an .h5ad file from a zip archive
     def __init__(self, archive_path):
         with H5AD._find_dataset(archive_path) as dataset_file:
+            self.name = pathlib.Path(dataset_file.name).stem
             self.adata = sc.read_h5ad(dataset_file)

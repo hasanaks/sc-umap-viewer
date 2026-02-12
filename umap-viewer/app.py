@@ -13,5 +13,5 @@ def dataset_plot():
     if dataset:
         dataset = H5AD(dataset[0]["datapath"])
 
-        axes = sc.pl.umap(dataset.adata, show=False)
+        axes = sc.pl.umap(dataset.adata, show=False, title=dataset.name)
         return axes
