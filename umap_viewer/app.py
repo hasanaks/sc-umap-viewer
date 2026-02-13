@@ -14,7 +14,7 @@ with ui.sidebar():
     ui.input_file("dataset_file", "Select a dataset file (.zip)", accept=[".zip"])
 
 
-with ui.card(full_screen=True):
+with ui.card():
     @render.plot(alt="UMAP Plot")
     def dataset_plot():
         if data := dataset():
