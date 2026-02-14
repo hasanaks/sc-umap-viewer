@@ -1,27 +1,24 @@
-import unittest
-from umap_viewer.h5ad import H5AD
+from umap_viewer import h5ad
 import zipfile
 import os
+import pytest
+
+def test_valid_zip_valid_h5ad():
+    path = os.path.join("data", "pbmc3k.zip")
+    datasets = h5ad.h5ads_from_zip(path)
+
+    assert len(datasets) == 1
+    assert datasets[0].adata is not None
+    assert datasets[0].name == "pbmc3k"
 
 
-class TestZipReading(unittest.TestCase):
-
-    def test_valid_zip_valid_h5ad(self):
-        path = os.path.join("data", "pbmc3k.zip")
-        dataset = H5AD(path)
-        self.assertIsNotNone(dataset.adata)
-        self.assertEqual(dataset.name, "pbmc3k")
-
-    def test_valid_zip_no_h5ad(self):
-        with self.assertRaises(FileNotFoundError):
-            path = os.path.join("tests", "empty.zip")
-            H5AD(path)
-
-    def test_non_zip(self):
-        with self.assertRaises(zipfile.BadZipFile):
-            path = os.path.join("tests", "empty.txt")
-            H5AD(path)
+def test_valid_zip_no_h5ad():
+    with pytest.raises(FileNotFoundError):
+        path = os.path.join("tests", "empty.zip")
+        h5ad.h5ads_from_zip(path)
 
 
-if __name__ == "__main__":
-    unittest.main()
+def test_non_zip():
+    with pytest.raises(zipfile.BadZipFile):
+        path = os.path.join("tests", "empty.txt")
+        h5ad.h5ads_from_zip(path)
