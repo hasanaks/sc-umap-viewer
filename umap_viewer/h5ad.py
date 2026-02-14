@@ -21,7 +21,7 @@ def h5ads_from_zip(zip_path: str) -> list[H5AD]:
 
     :param zip_path: Path to the ZIP archive.
     :return: List of H5AD objects.
-    :raise FileNotFoundError: If the file is not a valid ZIP or contains no .h5ad files.
+    :raises FileNotFoundError: If the file is not a valid ZIP or contains no .h5ad files.
     """
 
     h5ads = list()
