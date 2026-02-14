@@ -3,6 +3,7 @@ import zipfile
 import os
 import pytest
 
+
 def test_valid_zip_valid_h5ad():
     path = os.path.join("data", "pbmc3k.zip")
     datasets = h5ad.h5ads_from_zip(path)

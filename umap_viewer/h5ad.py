@@ -21,4 +21,9 @@ def h5ads_from_zip(zip_path: str) -> list[H5AD]:
                 with z.open(file) as dataset:
                     h5ads.append(H5AD(dataset))
 
+    if len(h5ads) == 0:
+        raise FileNotFoundError(
+            f"Could not find any .h5ad file in the archive {zip_path}."
+        )
+
     return h5ads
