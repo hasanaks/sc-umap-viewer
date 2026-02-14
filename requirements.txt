@@ -2,3 +2,4 @@ shiny
 scanpy
 matplotlib
 pytest
+pdoc
