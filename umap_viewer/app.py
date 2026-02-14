@@ -15,6 +15,8 @@ with ui.card():
 
     @render.plot(alt="UMAP Plot")
     def dataset_plot():
+        """Plots the selected dataset."""
+
         dataset_name = req(input.selected_dataset())
         dataset_list = req(datasets.get())
 
@@ -27,22 +29,27 @@ with ui.card():
 
 
 @reactive.effect
-def read_datasets() -> list[h5ad.H5AD]:
+def read_datasets():
+    """Reads datasets from the uplodad ZIP archive.
+
+    Loads all .h5ad files from the user-selected ZIP archive and stores them
+    in the reactive datasets value. Displays an error modal if loading fails."""
+
     archive = req(input.dataset_archive())
 
     try:
         datasets.set(h5ad.h5ads_from_zip(archive[0]["datapath"]))
     except Exception as e:
-        m = ui.modal(
-            str(e)
-        )
+        m = ui.modal(str(e))
         ui.modal_show(m)
-        
+
         datasets.set(None)
 
 
 @reactive.effect
-def _():
+def dataset_choices():
+    """Updates the list of choices of the selection UI."""
+
     dataset_list = datasets.get()
 
     if dataset_list:
