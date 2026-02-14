@@ -20,6 +20,6 @@ def test_valid_zip_no_h5ad():
 
 
 def test_non_zip():
-    with pytest.raises(BadZipFile):
+    with pytest.raises(FileNotFoundError):
         path = os.path.join("tests", "empty.txt")
         h5ad.h5ads_from_zip(path)

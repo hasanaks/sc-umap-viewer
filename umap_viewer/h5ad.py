@@ -16,7 +16,10 @@ class H5AD:
 def h5ads_from_zip(zip_path: str) -> list[H5AD]:
     h5ads = list()
 
-    with TemporaryDirectory() as temp:
+    if not zipfile.is_zipfile(zip_path):
+        raise FileNotFoundError(f"The dataset file must be a ZIP file.")
+
+    with TemporaryDirectory() as temp:        
         with zipfile.ZipFile(zip_path, "r") as z:
             z.extractall(temp)
 
@@ -25,7 +28,7 @@ def h5ads_from_zip(zip_path: str) -> list[H5AD]:
 
     if len(h5ads) == 0:
         raise FileNotFoundError(
-            f"Could not find any .h5ad file in the archive {zip_path}."
+            f"Could not find any .h5ad file in the archive."
         )
 
     return h5ads
