@@ -1,3 +1,5 @@
+"""For handling H5AD data."""
+
 from tempfile import TemporaryDirectory
 import scanpy as sc
 from pathlib import Path
