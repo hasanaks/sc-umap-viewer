@@ -1,4 +1,4 @@
-from shiny.express import ui, render, input, expressify
+from shiny.express import ui, render, input
 from shiny import reactive, req
 import scanpy as sc
 import h5ad

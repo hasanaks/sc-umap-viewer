@@ -1,5 +1,5 @@
 from umap_viewer import h5ad
-import zipfile
+from zipfile import BadZipFile
 import os
 import pytest
 
@@ -20,6 +20,6 @@ def test_valid_zip_no_h5ad():
 
 
 def test_non_zip():
-    with pytest.raises(zipfile.BadZipFile):
+    with pytest.raises(BadZipFile):
         path = os.path.join("tests", "empty.txt")
         h5ad.h5ads_from_zip(path)
