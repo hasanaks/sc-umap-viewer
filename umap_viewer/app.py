@@ -28,7 +28,7 @@ with ui.card():
 @reactive.calc
 def datasets() -> list[h5ad.H5AD]:
     archive = req(input.dataset_archive())
-    return h5ad.from_zip(archive[0]["datapath"])
+    return h5ad.h5ads_from_zip(archive[0]["datapath"])
 
 
 @reactive.effect

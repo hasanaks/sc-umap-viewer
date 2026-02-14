@@ -12,7 +12,7 @@ class H5AD:
 
 
 # reads and returns a list[H5AD] from a zip archive
-def from_zip(zip_path: str) -> list[H5AD]:
+def h5ads_from_zip(zip_path: str) -> list[H5AD]:
     h5ads = list()
 
     with zipfile.ZipFile(zip_path, "r") as z:
