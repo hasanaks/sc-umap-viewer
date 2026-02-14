@@ -1,22 +1,39 @@
-from shiny.express import ui, render, input
+from shiny.express import ui, render, input, expressify
 from shiny import reactive, req
 import scanpy as sc
-from h5ad import H5AD
+import h5ad
 
 ui.page_opts(title="UMAP Viewer", fillable=True)
 
-@reactive.calc
-def dataset():
-    file = req(input.dataset_file())
-    return H5AD(file[0]["datapath"])
-
 with ui.sidebar():
-    ui.input_file("dataset_file", "Select a dataset file (.zip)", accept=[".zip"])
+    ui.input_file("dataset_archive", "Select a dataset file (.zip)", accept=[".zip"])
+    ui.input_select("selected_dataset", "Select a dataset", [])
 
 
 with ui.card():
+
     @render.plot(alt="UMAP Plot")
     def dataset_plot():
-        if data := dataset():
-            axes = sc.pl.umap(data.adata, show=False, title=data.name)
-            return axes
+        dataset_name = req(input.selected_dataset())
+        dataset_list = req(datasets())
+
+        for dataset in dataset_list:
+            if dataset.name == dataset_name:
+                data = dataset
+
+        axes = sc.pl.umap(data.adata, show=False, title=data.name)
+        return axes
+
+
+@reactive.calc
+def datasets() -> list[h5ad.H5AD]:
+    archive = req(input.dataset_archive())
+    return h5ad.from_zip(archive[0]["datapath"])
+
+
+@reactive.effect
+def _():
+    ui.update_select(
+        "selected_dataset",
+        choices=[dataset.name for dataset in datasets()],
+    )
