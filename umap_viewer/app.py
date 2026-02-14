@@ -33,7 +33,9 @@ def datasets() -> list[h5ad.H5AD]:
 
 @reactive.effect
 def _():
+    choices = [""] + [dataset.name for dataset in datasets()]
+
     ui.update_select(
         "selected_dataset",
-        choices=[dataset.name for dataset in datasets()],
+        choices=choices,
     )
