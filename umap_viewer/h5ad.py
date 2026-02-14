@@ -19,7 +19,7 @@ class H5AD:
 
 
 def h5ads_from_zip(zip_path: str) -> list[H5AD]:
-    """Load all .h5ad files from a ZIP archive.
+    """Load all h5ad files from a ZIP archive.
 
     :param zip_path: Path to the ZIP archive.
     :return: List of H5AD objects.
